@@ -403,8 +403,7 @@ function createDataset(query) {
     let promises = query.from.default
         .concat(query.from.named)
         .map(uri => {
-            if (!list.includes(uri)) return loadFrom(uri);
-            else return Promise.resolve();
+            return Promise.resolve();
         });
 
     return Promise.all(promises)
@@ -544,5 +543,4 @@ module.exports.findGraph = store.findGraph;
 module.exports.find = find;
 module.exports.clear = clear;
 module.exports.load = load;
-module.exports.loadFrom = loadFrom;
 module.exports.query = query;
