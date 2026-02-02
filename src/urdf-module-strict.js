@@ -105,26 +105,6 @@ function rename(g, offset) {
 }
 
 /**
- * Returns a default graph object from the input definition.
- * 
- * @param {object} json a JSON-LD definition
- */
-function getDefaultGraph(json) {
-    let g = {};
-
-    // TODO use the JsonLdProcessor instead?
-    if (json instanceof Array) {
-        g['@graph'] = json.filter(obj => !obj['@graph']);
-    } else {
-        if (!json['@graph']) g['@graph'] = [json];
-        else if (!json['@id']) g = json;
-        else g['@graph'] = [];
-    }
-
-    return g;
-}
-
-/**
  * Returns whether the input context definition includes a base URI or no.
  * 
  * @param {object | array} ctx a JSON-LD context definition
@@ -159,8 +139,7 @@ function load(data, opts) {
 
     .then(json => {
         let dataset = json
-            .filter(obj => obj['@graph'])
-            .concat(getDefaultGraph(json));
+            .filter(obj => obj['@graph']);
 
         dataset.forEach(g => {
             let gid = g['@id'];
