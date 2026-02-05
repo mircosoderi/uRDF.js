@@ -102,7 +102,7 @@ function term(plain) {
   return { type: 'uri', value: plain };
 }
 			
-		} else if (capture = plain.match(/_:(.*)/)) {
+		else if (capture = plain.match(/_:(.*)/)) {
 			let [str, name] = capture; 
 			return {
 				type: 'bnode',
