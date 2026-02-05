@@ -89,12 +89,19 @@ function term(plain) {
 				type: 'uri',
 				value: plain
 			};
-		} else if (capture = plain.match(/([A-Za-z0-9]+):(.*)/)) {
-			let [str, prefix, name] = capture; 
-			return {
-				type: 'uri',
-				value: ns[prefix] + name
-			};
+} else if (capture = plain.match(/([A-Za-z0-9]+):(.*)/)) {
+  let [str, prefix, name] = capture;
+
+  // If it's a known namespace prefix, expand it.
+  if (ns[prefix]) {
+    return { type: 'uri', value: ns[prefix] + name };
+  }
+
+  // Otherwise, treat as an absolute IRI with scheme "<prefix>:"
+  // (e.g., n:a, z:123, or any other custom scheme).
+  return { type: 'uri', value: plain };
+}
+			
 		} else if (capture = plain.match(/_:(.*)/)) {
 			let [str, name] = capture; 
 			return {
